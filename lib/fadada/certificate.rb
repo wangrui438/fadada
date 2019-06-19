@@ -13,7 +13,7 @@ module Fadada
         customer_id: customer_id,
         evidence_no: evidence_no
       }
-      response = Fadada::HttpClient.request(:post, 'apply_client_numcert.api', options)
+      Fadada::HttpClient.request(:post, 'apply_client_numcert.api', options)
     end
   end
 end

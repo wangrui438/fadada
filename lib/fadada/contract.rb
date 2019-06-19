@@ -8,7 +8,7 @@ module Fadada
     def self.upload_doc(params = {})
       options = params.slice(:contract_id, :doc_title, :doc_url, :file).merge(doc_type: '.pdf')
       digest_params = { _params: params.slice(:contract_id) }
-      response = Fadada::HttpClient.request(:post, 'uploaddocs.api', options, digest_params)
+      Fadada::HttpClient.request(:post, 'uploaddocs.api', options, digest_params)
     end
 
     # 上传合同模板
@@ -18,7 +18,7 @@ module Fadada
     def self.upload_template(params = {})
       options = params.slice(:template_id, :doc_url, :file)
       digest_params = { _params: params.slice(:template_id) }
-      response = Fadada::HttpClient.request(:post, 'uploadtemplate.api', options, digest_params)
+      Fadada::HttpClient.request(:post, 'uploadtemplate.api', options, digest_params)
     end
 
     # 模板填充
@@ -30,7 +30,7 @@ module Fadada
       _normal = %i(doc_title font_size font_type dynamic_tables)
       options = params.slice(*(_basic + _extend + _normal))
       digest_params = { _params: params.slice(*_basic), _extend_params: params.slice(*_extend) }
-      response = Fadada::HttpClient.request(:post, 'generate_contract.api', options, digest_params)
+      Fadada::HttpClient.request(:post, 'generate_contract.api', options, digest_params)
     end
 
     # 自动签署合同
@@ -57,7 +57,7 @@ module Fadada
       _normal = %i(contract_id client_role doc_title position_type sign_keyword keyword_strategy signature_positions notify_url)
       options = _options.merge(params.slice(*(_basic + _md5 + _normal)))
       digest_params = { _params: options.slice(*_basic), _md5_params: options.slice(*_md5) }
-      response = Fadada::HttpClient.request(:post, 'extsign_auto.api', options, digest_params)
+      Fadada::HttpClient.request(:post, 'extsign_auto.api', options, digest_params)
     end
 
     # 手动签署合同
@@ -71,14 +71,27 @@ module Fadada
       _normal = %i(contract_id doc_title sign_keyword keyword_strategy return_url notify_url customer_mobile customer_name customer_ident_no)
       options = params.slice(*(_basic + _md5 + _normal))
       digest_params = { _params: params.slice(*_basic), _md5_params: params.slice(*_md5) }
-      response = Fadada::HttpClient.request(:get, 'extsign.api', options, digest_params)
+      Fadada::HttpClient.request(:get, 'extsign.api', options, digest_params)
+    end
+
+    # 批量手动签署合同
+    # 该接口为页面接口，接入方平台可以在合适的业务场景嵌入该接口链接，引导客户至法大大进行文档签署
+    # (比如可以在接入方平台网站上放置一个按钮，该按钮触发跳转至法大大或将法大大签章页面嵌入接入方流程)。
+    # 用于一个用户一次签署多份合同，页面展示多份合同，用户进行一次签署操作，填写验证码，验证码通过后即完成全部合同的签署。
+    def self.batch_sign(params = {})
+      _basic = %i(customer_id outh_customer_id)
+      _md5 = %i(batch_id)
+      _normal = %i(sign_data batch_title mobile_sign_type return_url notify_url customer_mobile)
+      options = params.slice(*(_basic + _md5 + _normal))
+      digest_params = { _params: params.slice(*_basic), _md5_params: params.slice(*_md5) }
+      Fadada::HttpClient.request(:get, 'gotoBatchSemiautoSignPage.api', options, digest_params)
     end
 
     # 合同查看
     # 页面接口，返回签署页面，根据浏览器 UA 信息返回 pc 或 H5 页面.
     def self.show(contract_id)
       options = { contract_id: contract_id }
-      response = Fadada::HttpClient.request(:get, 'viewContract.api', options)
+      Fadada::HttpClient.request(:get, 'viewContract.api', options)
     end
 
     # 合同下载
@@ -86,7 +99,7 @@ module Fadada
     # 正常时直接返回 PDF 文档(MIME:application/pdf)，异常时返回 JSON 报文
     def self.download(contract_id)
       options = { contract_id: contract_id }
-      response = Fadada::HttpClient.request(:get, 'downLoadContract.api', options)
+      Fadada::HttpClient.request(:get, 'downLoadContract.api', options)
     end
 
     # 合同归档
@@ -94,7 +107,7 @@ module Fadada
     # 归档后将不能再对文档再进行签署操作。
     def self.filing(contract_id)
       options = { contract_id: contract_id }
-      response = Fadada::HttpClient.request(:post, 'contractFiling.api', options)
+      Fadada::HttpClient.request(:post, 'contractFiling.api', options)
     end
   end
 end
