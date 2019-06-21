@@ -1,5 +1,6 @@
 require "fadada/version"
 require "fadada/configuration"
+require "fadada/digest"
 require "fadada/http_client"
 
 # resources
