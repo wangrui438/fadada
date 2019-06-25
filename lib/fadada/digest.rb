@@ -13,7 +13,7 @@ module Fadada
     def self.generate(timestamp, options = {})
       _biz_data = Fadada::config.app_secret + params_transform(options[:_params])
       _sha1_biz_data = ::Digest::SHA1.hexdigest(_biz_data).upcase
-      _md5 = ::Digest::MD5.hexdigest(params_transform(options[:_md5_params]) + timestamp).upcase
+      _md5 = ::Digest::MD5.hexdigest(params_transform(options[:_md5_params]) + timestamp.to_s).upcase
       _extend = params_transform(options[:_extend_params])
       _data = ::Digest::SHA1.hexdigest(::Fadada::config.app_id + _md5 + _sha1_biz_data + _extend).upcase
       Base64.strict_encode64(_data)
