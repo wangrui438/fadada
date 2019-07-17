@@ -12,8 +12,8 @@ module Fadada
     #   返回 法大大的账号
     def self.person_register(open_id)
       options = {
-        open_id: open_id,
-        account_type: 1 # 账户类型，1 个人；2 企业，默认 1
+        account_type: 1, # 账户类型，1 个人；2 企业，默认 1
+        open_id: open_id
       }
       response = Fadada::HttpClient.request(:post, 'account_register.api', options)
       response['data']
@@ -29,8 +29,8 @@ module Fadada
     #   返回 法大大的账号
     def self.company_register(open_id)
       options = {
-        open_id: open_id,
-        account_type: 2 # 账户类型，1 个人；2 企业，默认 1
+        account_type: 2, # 账户类型，1 个人；2 企业，默认 1
+        open_id: open_id
       }
       response = Fadada::HttpClient.request(:post, 'account_register.api', options)
       response['data']

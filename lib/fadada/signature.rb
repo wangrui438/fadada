@@ -26,8 +26,8 @@ module Fadada
     #   content => 印章展示的内容，可以是企业名称或者客户名称
     def self.custom(customer_id:, content:)
       options = {
-        customer_id: customer_id,
-        content: content
+        content: content,
+        customer_id: customer_id
       }
       response = Fadada::HttpClient.request(:post, 'custom_signature.api', options)
       response['data']['signature_img_base64']

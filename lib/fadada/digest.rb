@@ -34,7 +34,7 @@ module Fadada
     # 需要排序后使用
     def self.params_transform(options)
       _options = options || {}
-      _options.delete_if { |key, value| value.blank? }.sort.map { |k,v| v }.join
+      _options.delete_if { |key, value| value.blank? }.map { |k,v| v }.join
     end
   end
 end
