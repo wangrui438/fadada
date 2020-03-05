@@ -54,7 +54,7 @@ module Fadada
       }
       _basic = %i(customer_id)
       _md5 = %i(transaction_id)
-      _normal = %i(contract_id client_role doc_title position_type sign_keyword keyword_strategy signature_positions notify_url)
+      _normal = %i(contract_id signature_id client_role doc_title position_type sign_keyword keyword_strategy signature_positions notify_url)
       options = _options.merge(params.slice(*(_basic + _md5 + _normal)))
       digest_params = { _params: options.slice(*_basic), _md5_params: options.slice(*_md5) }
       Fadada::HttpClient.request(:post, 'extsign_auto.api', options, digest_params)
@@ -68,7 +68,7 @@ module Fadada
     def self.sign(params = {})
       _basic = %i(customer_id)
       _md5 = %i(transaction_id)
-      _normal = %i(contract_id doc_title sign_keyword keyword_strategy return_url notify_url customer_mobile customer_name customer_ident_no)
+      _normal = %i(contract_id signature_id doc_title sign_keyword keyword_strategy return_url notify_url customer_mobile customer_name customer_ident_no)
       options = params.slice(*(_basic + _md5 + _normal))
       digest_params = { _params: params.slice(*_basic), _md5_params: params.slice(*_md5) }
       Fadada::HttpClient.request(:get, 'extsign.api', options, digest_params)
@@ -81,7 +81,7 @@ module Fadada
     def self.batch_sign(params = {})
       _basic = %i(customer_id outh_customer_id)
       _md5 = %i(batch_id)
-      _normal = %i(sign_data batch_title mobile_sign_type return_url notify_url customer_mobile)
+      _normal = %i(sign_data signature_id batch_title mobile_sign_type return_url notify_url customer_mobile)
       options = params.slice(*(_basic + _md5 + _normal))
       digest_params = { _params: params.slice(*_basic), _md5_params: params.slice(*_md5) }
       Fadada::HttpClient.request(:get, 'gotoBatchSemiautoSignPage.api', options, digest_params)
