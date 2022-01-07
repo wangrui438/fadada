@@ -110,7 +110,7 @@ module Fadada
     # 如果没有签署，则不 需要其他操作。
     def self.cancellation(contract_id)
       options = { contract_id: contract_id }
-      Fadada::HttpClient.request(:get, 'cancellation_of_contract.api', options)
+      Fadada::HttpClient.request(:post, 'cancellation_of_contract.api', options)
     end
 
     # 合同归档
