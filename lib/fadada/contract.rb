@@ -102,6 +102,17 @@ module Fadada
       Fadada::HttpClient.request(:get, 'downLoadContract.api', options)
     end
 
+    # 合同撤销（风险很高，慎用，除非你知道自己在干啥）
+    # 合同编号不允许重复!当合同已经上传或生成成功，已经占用了某合同编号，
+    # 此时发现该合同内容存在错误，需要重新上传或生成，又需要用之前的合同编号。
+    # 这种情况，就可以通过此接口，释放之前的合同编号，达到再次使用这个编号的目的。
+    # 之前的合同如果已经签署，建议接入方在新的合同中增加条款，说明上一份合同无效;
+    # 如果没有签署，则不 需要其他操作。
+    def self.cancellation(contract_id)
+      options = { contract_id: contract_id }
+      Fadada::HttpClient.request(:get, 'cancellation_of_contract.api', options)
+    end
+
     # 合同归档
     # 接入平台更新合同签署状态为-签署完成，法大大将把合同所有相关操作记录进行归档存证。
     # 归档后将不能再对文档再进行签署操作。
